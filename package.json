@@ -2,17 +2,16 @@
   "name": "aadish-anime-quotes",
   "version": "1.0.1",
   "description": "Premium, high-performance anime quote API engine with a neobrutalist aesthetic.",
-  "main": "api/index.js",
+  "main": "functions/api/[[route]].js",
   "engines": {
     "node": "22.x"
   },
   "scripts": {
-    "dev": "node scripts/dev-server.js",
-    "start": "node scripts/dev-server.js",
     "build": "node scripts/build-db.js",
-    "deploy": "vercel --prod"
+    "dev": "npm run build && npx wrangler pages dev .",
+    "deploy": "npm run build && npx wrangler pages deploy ."
   },
-  "dependencies": {
-    "express": "^4.22.1"
+  "devDependencies": {
+    "wrangler": "latest"
   }
 }

@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const SOURCE_FILE = path.join(__dirname, '..', 'animequotes.json');
-const DIST_DIR = path.join(__dirname, '..', 'api', 'db');
+const DIST_DIR = path.join(__dirname, '..', 'db');
 
 if (!fs.existsSync(DIST_DIR)) {
   fs.mkdirSync(DIST_DIR, { recursive: true });
