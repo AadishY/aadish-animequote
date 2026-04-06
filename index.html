@@ -26,7 +26,10 @@
     </div>
     <div id="toast-container"></div>
     <header class="neo-header">
-        <button id="theme-toggle" class="theme-toggle" title="Toggle Dark/Light Mode">🌙 DARK</button>
+        <div style="position: absolute; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000;">
+            <a href="https://github.com/AadishY/aadish-animequote" target="_blank" class="neo-btn secondary" style="padding: 10px 15px; font-size: 0.8rem; text-decoration: none; color: #000;">⭐ GITHUB</a>
+            <button id="theme-toggle" class="theme-toggle" style="position: static;" title="Toggle Dark/Light Mode">🌙 DARK</button>
+        </div>
         <h1>AADISH<span class="highlight">ANIME</span> QUOTES</h1>
         <p class="subtitle">The fastest, rawest anime quote engine on the web.</p>
     </header>
@@ -165,7 +168,10 @@
 
     <footer class="neo-footer">
         <p>Built for speed. Powered by Vercel.</p>
-        <p class="footer-note">AadishAnime Quotes &copy; 2026</p>
+        <p style="margin-top: 10px;">
+            <a href="https://github.com/AadishY/aadish-animequote" target="_blank" style="color: var(--accent-color); font-weight: 900; text-decoration: none;">View Source on GitHub</a>
+        </p>
+        <p class="footer-note" style="margin-top: 20px;">AadishAnime Quotes &copy; 2026</p>
     </footer>
 
     <script>
@@ -267,6 +273,16 @@
                     const btn = document.getElementById('backToTop');
                     btn.style.display = window.scrollY > 300 ? 'block' : 'none';
                 };
+
+                // Spacebar Shortcut
+                document.addEventListener('keydown', (e) => {
+                    if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'SUMMARY') {
+                        e.preventDefault();
+                        this.fetchQuote('/api/random');
+                        // Show visual feedback
+                        this.showToast("Quote Refreshed (Spacebar)");
+                    }
+                });
             },
 
             setupLiveDemos() {
