@@ -11,11 +11,21 @@ app.use(express.static(path.join(__dirname, '..')));
 
 // 🔌 API Router Emulator
 app.all('/api/*', (req, res) => {
+    // 🔍 Debug Logging
+    console.log(`[API Request]: ${req.method} ${req.url}`);
+    
+    // Ensure the handler sees the FULL path including /api 
+    // This maintains parity with the Vercel architecture
+    if (!req.url.startsWith('/api')) {
+        req.url = req.originalUrl || `/api${req.url}`;
+    }
+
     // Inject Vercel-like helper for dev
     res.status = (code) => {
         res.statusCode = code;
         return res;
     };
+    
     return handler(req, res);
 });
 
