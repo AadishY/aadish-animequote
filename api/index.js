@@ -7,16 +7,29 @@ let DB_CACHE = { quotes: null, animes: null, characters: null, map: null };
 const loadDB = () => {
   if (DB_CACHE.quotes) return true;
   try {
-    const dbPath = (name) => path.join(__dirname, 'db', `${name}.json`);
+    // Vercel Serverless environment requires process.cwd() to resolve paths reliably from the project root.
+    const dbPath = (name) => path.join(process.cwd(), 'api', 'db', `${name}.json`);
+    
     DB_CACHE.quotes = JSON.parse(fs.readFileSync(dbPath('quotes'), 'utf8'));
     DB_CACHE.animes = JSON.parse(fs.readFileSync(dbPath('animes'), 'utf8'));
     DB_CACHE.characters = JSON.parse(fs.readFileSync(dbPath('characters'), 'utf8'));
     DB_CACHE.map = JSON.parse(fs.readFileSync(dbPath('map'), 'utf8'));
-    console.log('[DB]: Successfully initialized database into memory.');
+    console.log('[DB]: Successfully initialized database into memory from ' + process.cwd());
     return true;
   } catch (err) {
     console.error('[DB Error]: Failed to read optimized database files.', err.message);
-    return false;
+    // Fallback: Try static require if fs.readFileSync fails. Native require works with Vercel NFT bundling.
+    try {
+      DB_CACHE.quotes = require('./db/quotes.json');
+      DB_CACHE.animes = require('./db/animes.json');
+      DB_CACHE.characters = require('./db/characters.json');
+      DB_CACHE.map = require('./db/map.json');
+      console.log('[DB]: Successfully initialized database via static require.');
+      return true;
+    } catch (reqErr) {
+      console.error('[DB Error]: Static require also failed.', reqErr.message);
+      return false;
+    }
   }
 };
 
