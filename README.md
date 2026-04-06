@@ -1,6 +1,6 @@
 # 🌟 AadishAnime Quotes API
 
-[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://aadishanimequotes.vercel.app)
+[![Cloudflare Deployment](https://img.shields.io/badge/Cloudflare_Pages-Deployed-F38020?style=for-the-badge&logo=cloudflare)](https://aadishquotes.pages.dev)
 [![Node version](https://img.shields.io/badge/Node-v22+-green?style=for-the-badge&logo=node.js)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
@@ -11,7 +11,7 @@ A high-performance, serverless anime quote engine featuring a striking **Neobrut
 ## ⚡ Quick Start
 
 Visit the live portal to use the **Interactive URL Builder**:
-👉 **[aadishanimequotes.vercel.app](https://aadishanimequotes.vercel.app)**
+👉 **[aadishquotes.pages.dev](https://aadishquotes.pages.dev)**
 
 ---
 
@@ -47,7 +47,7 @@ Fine-tune your results using length flags:
 
 ## 🛠️ Local Development
 
-We use a custom Express-based server to emulate the Vercel serverless environment.
+We use `wrangler` to fully emulate the Cloudflare Pages serverless environment.
 
 ### Setup & Optimization
 ```bash
@@ -71,7 +71,7 @@ npm run deploy
 
 ## 🏗️ Technical Architecture
 - **Pre-Indexed Data**: $O(1)$ lookup for anime pools thanks to a custom build-time indexing script.
-- **Serverless Edge**: Optimized for Vercel Functions with `Stale-While-Revalidate` caching.
+- **Serverless Edge**: Optimized for Cloudflare Pages Functions with ASSETS bindings.
 - **Neobrutalism UI**: A premium, high-contrast dashboard with a built-in testing console and social sharing.
 
 *Crafted by Aadish. Optimized for the modern web.*
