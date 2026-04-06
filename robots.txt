@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aadishanimequotes.vercel.app/sitemap.xml

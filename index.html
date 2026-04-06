@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AadishAnime Quotes | Superfast JSON API</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="A high-performance, neobrutalism-designed anime quote API with 8,600+ entries.">
+    <meta name="keywords" content="anime, quotes, api, json, naruto, one piece, bleach, aadishanime">
+    <meta property="og:title" content="AadishAnime Quotes">
+    <meta property="og:description" content="The fastest way to get your favorite anime quotes via JSON.">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ff6e40">
+    
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="loader-overlay" class="hidden">
+        <div class="neo-spinner" role="status" aria-label="Loading"></div>
+    </div>
+    <div id="toast-container"></div>
+    <header class="neo-header">
+        <button id="theme-toggle" class="theme-toggle" title="Toggle Dark/Light Mode">🌙 DARK</button>
+        <h1>AADISH<span class="highlight">ANIME</span> QUOTES</h1>
+        <p class="subtitle">The fastest, rawest anime quote engine on the web.</p>
+    </header>
+
+    <main class="container">
+        <!-- Live Preview Section -->
+        <section class="neo-card live-preview">
+            <h2 class="card-title">LIVE PREVIEW</h2>
+            <div id="quote-container" class="quote-box" style="position: relative;">
+                <button id="copy-quote-btn" class="copy-btn" style="position: absolute; top: -10px; right: -10px; border: var(--border-width) solid var(--border-color); transform: scale(0.8);" title="Copy Quote">COPY</button>
+                <p id="quote-text">"Loading the wisdom of the ancients..."</p>
+                <div class="quote-footer">
+                    <div>
+                        <span id="quote-char">---</span>
+                        <span id="quote-anime" class="badge">---</span>
+                    </div>
+                    <a id="share-btn" href="#" target="_blank" class="share-btn">SHARE ON X</a>
+                </div>
+            </div>
+            <button id="refresh-btn" class="neo-btn primary">GET NEW QUOTE</button>
+        </section>
+
+        <!-- Documentation Grid -->
+        <section class="docs-grid">
+            <div class="neo-card doc-item">
+                <h3>RANDOM QUOTES</h3>
+                <div class="code-wrapper">
+                    <code class="endpoint">/api/random-5</code>
+                    <button class="copy-btn">COPY</button>
+                </div>
+                <details class="demo-box" data-endpoint="/api/random-5">
+                    <summary>SHOW LIVE PREVIEW</summary>
+                    <pre><code>Loading live data...</code></pre>
+                </details>
+            </div>
+            <div class="neo-card doc-item">
+                <h3>BY ANIME</h3>
+                <div class="code-wrapper">
+                    <code class="endpoint">/api/Naruto-10</code>
+                    <button class="copy-btn">COPY</button>
+                </div>
+                <details class="demo-box" data-endpoint="/api/Naruto-10">
+                    <summary>SHOW LIVE PREVIEW</summary>
+                    <pre><code>Loading live data...</code></pre>
+                </details>
+            </div>
+            <div class="neo-card doc-item">
+                <h3>LENGTH FILTER</h3>
+                <div class="code-wrapper">
+                    <code class="endpoint">/api/random-high-5</code>
+                    <button class="copy-btn">COPY</button>
+                </div>
+                <details class="demo-box" data-endpoint="/api/random-high-5">
+                    <summary>SHOW LIVE PREVIEW</summary>
+                    <pre><code>Loading live data...</code></pre>
+                </details>
+                <p class="small-text">Values: low, med, high</p>
+            </div>
+            <div class="neo-card doc-item">
+                <h3>SEARCH</h3>
+                <div class="code-wrapper">
+                    <code class="endpoint">/api/search?q=goku</code>
+                    <button class="copy-btn">COPY</button>
+                </div>
+                <details class="demo-box" data-endpoint="/api/search?q=goku">
+                    <summary>SHOW LIVE PREVIEW</summary>
+                    <pre><code>Loading live data...</code></pre>
+                </details>
+            </div>
+            <div class="neo-card doc-item">
+                <h3>DISCOVERY</h3>
+                <div class="code-wrapper">
+                    <code class="endpoint">/api/list/animes</code>
+                    <button class="copy-btn">COPY</button>
+                </div>
+                <details class="demo-box" data-endpoint="/api/list/animes">
+                    <summary>SHOW LIVE PREVIEW</summary>
+                    <pre><code>Loading live data...</code></pre>
+                </details>
+            </div>
+        </section>
+
+        <!-- API Generator -->
+        <section class="neo-card builder-card">
+            <h2 class="card-title">API URL BUILDER</h2>
+            <div class="builder-grid">
+                <div class="form-group">
+                    <label>SELECT ANIME</label>
+                    <select id="gen-anime" class="neo-input">
+                        <option value="random">Random (All)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>LENGTH</label>
+                    <select id="gen-length" class="neo-input">
+                        <option value="">Any Length</option>
+                        <option value="low">Short (Low)</option>
+                        <option value="med">Medium (Med)</option>
+                        <option value="high">Long (High)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>COUNT (1-100)</label>
+                    <input type="number" id="gen-count" value="1" min="1" max="100" class="neo-input">
+                </div>
+            </div>
+            <div class="generator-footer">
+                <div class="code-wrapper live-url">
+                    <code id="gen-result">/api/random</code>
+                    <button class="copy-btn">COPY</button>
+                </div>
+                <button id="gen-test-btn" class="neo-btn secondary">TEST BUILD</button>
+            </div>
+        </section>
+
+        <!-- Try It Out Console -->
+        <section class="neo-card console-card">
+            <h2 class="card-title">TRY IT OUT</h2>
+            <div class="console-body">
+                <div class="input-row">
+                    <span class="url-prefix">https://aadishanimequotes.vercel.app</span>
+                    <input type="text" id="api-path" value="/api/random" class="neo-input">
+                </div>
+                <button id="test-btn" class="neo-btn secondary">TEST API</button>
+            </div>
+            <div class="helper-tags">
+                <span class="badge clickable" onclick="setPath('/api/random')">/api/random</span>
+                <span class="badge clickable" onclick="setPath('/api/Naruto-5')">/api/Naruto-5</span>
+                <span class="badge clickable" onclick="setPath('/api/list/animes')">/api/list/animes</span>
+            </div>
+            <pre id="json-output" class="json-box">{ "click": "TEST API to see JSON" }</pre>
+        </section>
+    </main>
+
+    <a href="#" class="back-to-top" id="backToTop">↑ TOP</a>
+
+    <footer class="neo-footer">
+        <p>Built for speed. Powered by Vercel.</p>
+        <p class="footer-note">AadishAnime Quotes &copy; 2026</p>
+    </footer>
+
+    <script>
+        const QuotesApp = {
+            elements: {
+                quoteText: document.getElementById('quote-text'),
+                quoteChar: document.getElementById('quote-char'),
+                quoteAnime: document.getElementById('quote-anime'),
+                jsonOutput: document.getElementById('json-output'),
+                apiPathInput: document.getElementById('api-path'),
+                refreshBtn: document.getElementById('refresh-btn'),
+                testBtn: document.getElementById('test-btn'),
+                loader: document.getElementById('loader-overlay'),
+                themeToggle: document.getElementById('theme-toggle'),
+                shareBtn: document.getElementById('share-btn'),
+                toastContainer: document.getElementById('toast-container'),
+                gen: {
+                    anime: document.getElementById('gen-anime'),
+                    len: document.getElementById('gen-length'),
+                    cnt: document.getElementById('gen-count'),
+                    res: document.getElementById('gen-result'),
+                    test: document.getElementById('gen-test-btn')
+                }
+            },
+
+            init() {
+                this.setupTheme();
+                this.setupGenerator();
+                this.setupListeners();
+                this.fetchQuote();
+                this.setupLiveDemos();
+            },
+
+            setupTheme() {
+                const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                if (theme === 'dark') this.toggleTheme(true);
+                
+                this.elements.themeToggle.onclick = () => this.toggleTheme();
+            },
+
+            toggleTheme(forceDark = false) {
+                const isDark = forceDark || !document.documentElement.hasAttribute('data-theme');
+                if (isDark) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    this.elements.themeToggle.innerText = '☀️ LIGHT';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.removeAttribute('data-theme');
+                    this.elements.themeToggle.innerText = '🌙 DARK';
+                    localStorage.setItem('theme', 'light');
+                }
+            },
+
+            async setupGenerator() {
+                try {
+                    const res = await fetch('/api/list/animes');
+                    const list = await res.json();
+                    list.sort().forEach(a => {
+                        const opt = document.createElement('option');
+                        opt.value = a.replace(/\s+/g, '_');
+                        opt.innerText = a;
+                        this.elements.gen.anime.appendChild(opt);
+                    });
+                } catch (e) { this.showToast("Failed to load anime list", true); }
+
+                const update = () => {
+                    const anime = this.elements.gen.anime.value;
+                    const len = this.elements.gen.len.value;
+                    const cnt = this.elements.gen.cnt.value;
+                    let path = `/api/${anime}`;
+                    if (len) path += `-${len}`;
+                    if (parseInt(cnt) > 1) path += `-${cnt}`;
+                    this.elements.gen.res.innerText = path;
+                };
+
+                [this.elements.gen.anime, this.elements.gen.len, this.elements.gen.cnt].forEach(el => el.onchange = update);
+                this.elements.gen.cnt.oninput = update;
+                this.elements.gen.test.onclick = () => this.setPath(this.elements.gen.res.innerText);
+            },
+
+            setupListeners() {
+                this.elements.refreshBtn.onclick = () => this.fetchQuote('/api/random');
+                this.elements.testBtn.onclick = () => this.fetchQuote(this.elements.apiPathInput.value, true);
+                
+                document.getElementById('copy-quote-btn').onclick = () => {
+                    const text = this.elements.quoteText.innerText;
+                    const char = this.elements.quoteChar.innerText;
+                    this.copyToClipboard(`${text} ${char}`);
+                };
+
+                document.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('copy-btn')) {
+                        const endpoint = e.target.previousElementSibling.innerText;
+                        this.copyToClipboard(`https://aadishanimequotes.vercel.app${endpoint}`);
+                    }
+                });
+
+                window.onscroll = () => {
+                    const btn = document.getElementById('backToTop');
+                    btn.style.display = window.scrollY > 300 ? 'block' : 'none';
+                };
+            },
+
+            setupLiveDemos() {
+                document.querySelectorAll('details.demo-box').forEach(details => {
+                    details.addEventListener('toggle', async () => {
+                        const code = details.querySelector('code');
+                        if (details.open && code.innerText === 'Loading live data...') {
+                            try {
+                                const res = await fetch(details.dataset.endpoint);
+                                const data = await res.json();
+                                code.innerText = JSON.stringify(data, null, 2);
+                            } catch (e) { code.innerText = "Error fetching live demo."; }
+                        }
+                    });
+                });
+            },
+
+            async fetchQuote(path = '/api/random', isFullTest = false) {
+                const btn = isFullTest ? this.elements.testBtn : this.elements.refreshBtn;
+                try {
+                    this.elements.loader.classList.remove('hidden');
+                    btn.disabled = true;
+                    
+                    const res = await fetch(path);
+                    const data = await res.json();
+                    
+                    const single = Array.isArray(data) ? data[0] : data;
+                    if (single && single.quote) {
+                        this.elements.quoteText.innerText = `"${single.quote}"`;
+                        this.elements.quoteChar.innerText = `— ${single.character}`;
+                        this.elements.quoteAnime.innerText = single.animename;
+                        this.updateShareBtn(single);
+                    }
+
+                    this.elements.jsonOutput.classList.toggle('error', res.status >= 400);
+                    this.elements.jsonOutput.innerText = JSON.stringify(data, null, 2);
+
+                } catch (err) {
+                    this.showToast("API Request Failed", true);
+                    this.elements.jsonOutput.innerText = JSON.stringify({ error: "Fetch Error" }, null, 2);
+                } finally {
+                    this.elements.loader.classList.add('hidden');
+                    btn.disabled = false;
+                }
+            },
+
+            updateShareBtn(quote) {
+                const text = encodeURIComponent(`"${quote.quote}" — ${quote.character} (${quote.animename})\n\nGet more at https://aadishanimequotes.vercel.app`);
+                this.elements.shareBtn.href = `https://twitter.com/intent/tweet?text=${text}`;
+            },
+
+            setPath(path) {
+                this.elements.apiPathInput.value = path;
+                this.fetchQuote(path, true);
+                window.scrollTo({ top: this.elements.apiPathInput.offsetTop - 100, behavior: 'smooth' });
+            },
+
+            showToast(message, isError = false) {
+                const toast = document.createElement('div');
+                toast.className = `toast ${isError ? 'error' : ''}`;
+                toast.innerText = message;
+                this.elements.toastContainer.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            },
+
+            copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    this.showToast("URL Copied to Clipboard!");
+                }).catch(() => this.showToast("Failed to Copy", true));
+            }
+        };
+
+        QuotesApp.init();
+    </script>
+</body>
+</html>
