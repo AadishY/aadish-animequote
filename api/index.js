@@ -1,7 +1,24 @@
-const quotes = require('./db/quotes.json');
-const animes = require('./db/animes.json');
-const characters = require('./db/characters.json');
-const animeMap = require('./db/map.json');
+const fs = require('fs');
+const path = require('path');
+
+// 🧬 Lazy-Initialized Database (Optimized for Vercel Cold Starts)
+let DB_CACHE = { quotes: null, animes: null, characters: null, map: null };
+
+const loadDB = () => {
+  if (DB_CACHE.quotes) return true;
+  try {
+    const dbPath = (name) => path.join(__dirname, 'db', `${name}.json`);
+    DB_CACHE.quotes = JSON.parse(fs.readFileSync(dbPath('quotes'), 'utf8'));
+    DB_CACHE.animes = JSON.parse(fs.readFileSync(dbPath('animes'), 'utf8'));
+    DB_CACHE.characters = JSON.parse(fs.readFileSync(dbPath('characters'), 'utf8'));
+    DB_CACHE.map = JSON.parse(fs.readFileSync(dbPath('map'), 'utf8'));
+    console.log('[DB]: Successfully initialized database into memory.');
+    return true;
+  } catch (err) {
+    console.error('[DB Error]: Failed to read optimized database files.', err.message);
+    return false;
+  }
+};
 
 const SPECIAL_ANIME = ["One Piece", "Naruto", "Bleach"];
 
@@ -60,10 +77,23 @@ const filterByLength = (arr, length) => {
 const normalizeSearch = (s) => s.toLowerCase().replace(/[_\-\s]+/g, ' ').trim();
 
 module.exports = (req, res) => {
+  // 1. Core Data Load Security
+  if (!loadDB()) {
+    return sendError(res, 'Database unavailable. Ensure "npm run build" was executed successfully before deployment.', 500, {
+      hint: "Run 'npm run build' locally and verify 'api/db/' directory contains all .json files."
+    });
+  }
+
+  const { quotes, animes, characters, map: animeMap } = DB_CACHE;
+
   try {
-    const url = req.url.split('?')[0];
-    const query = req.url.includes('?') ? new URL(req.url, `http://${req.headers.host}`).searchParams : new URLSearchParams();
+    const url = (req.url || '/api/random').split('?')[0];
+    const host = req.headers.host || 'localhost';
+    const query = req.url.includes('?') ? new URL(req.url, `http://${host}`).searchParams : new URLSearchParams();
     
+    // 🔍 Local Debug Login
+    console.log(`[Request]: ${req.method} ${url}`);
+
     // 1. Discovery Routes
     if (url === '/api/list/animes') return sendJSON(res, animes);
     if (url === '/api/list/characters') return sendJSON(res, characters);
