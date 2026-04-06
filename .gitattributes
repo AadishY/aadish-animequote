@@ -1,0 +1,16 @@
+# Normalize all text files to LF
+* text=auto
+
+# Explicitly declare file types
+*.json text
+*.js text
+*.html text
+*.css text
+*.md text
+*.xml text
+*.txt text
+
+# Assets
+*.png binary
+*.ico binary
+*.jpg binary
